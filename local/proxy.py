@@ -16,6 +16,7 @@ __config__  = 'proxy.ini'
 import sys
 import os
 
+__file__ = os.path.realpath(__file__)
 try:
     import gevent
     import gevent.queue
