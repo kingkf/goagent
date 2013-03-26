@@ -24,8 +24,6 @@ def main_macos():
 	<string>wheel</string>
 	<key>Label</key>
 	<string>org.goagent.macos</string>
-	<key>OnDemand</key>
-	<false/>
 	<key>ProgramArguments</key>
 	<array>
 		<string>/usr/bin/python</string>
@@ -33,12 +31,6 @@ def main_macos():
 	</array>
 	<key>RunAtLoad</key>
 	<true/>
-	<key>ServiceIPC</key>
-	<true/>
-	<key>StandardErrorPath</key>
-	<string>%(dirname)s/proxy.log</string>
-	<key>StandardOutPath</key>
-	<string>%(dirname)s/proxy.log</string>
 	<key>UserName</key>
 	<string>root</string>
 	<key>WorkingDirectory</key>
@@ -47,9 +39,14 @@ def main_macos():
     <string>/var/log/goagent.log</string>
     <key>StandardErrorPath</key>
     <string>/var/log/goagent.log</string>
+    <key>KeepAlive</key>
+    <dict>
+        <key>SuccessfulExit</key>
+        <false/>
+    </dict>
 </dict>
 </plist>''' % dict(dirname=os.path.abspath(os.path.dirname(__file__)))
-    filename = '/System/Library/LaunchDaemons/org.goagent.macos.plist'
+    filename = '/Library/LaunchDaemons/org.goagent.macos.plist'
     print 'write plist to %s' % filename
     with open(filename, 'wb') as fp:
         fp.write(PLIST)
@@ -60,6 +57,8 @@ def main_macos():
         print 'Adding CA.crt to system keychain Failed!'
         sys.exit(0)
     print 'Adding CA.crt to system keychain Done'
+    print 'To start goagent right now, try this command: sudo launchctl load /Library/LaunchDaemons/org.goagent.macos.plist'
+    print 'To checkout log file: using Console.app to locate /var/log/goagent.log' 
 
 def main_linux():
     pass
